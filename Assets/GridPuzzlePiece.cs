@@ -16,7 +16,8 @@ public class GridPuzzlePiece : MonoBehaviour {
 	
 	}
 
-    void OnClick()
+    public void Sparkle()
     {
+        GetComponent<ParticleSystem>().Play();
     }
 }

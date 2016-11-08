@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent (typeof(AudioSource))]
 public class GridPuzzle : MonoBehaviour {
 
     public int columns;
@@ -9,6 +10,11 @@ public class GridPuzzle : MonoBehaviour {
 
     [HideInInspector]
     GridPuzzlePiece current;
+
+    AudioSource audioSource;
+    public AudioClip sparkle;
+    public AudioClip select;
+    public AudioClip deselect;
 
 	// Use this for initialization
 	void Start () {
@@ -28,6 +34,8 @@ public class GridPuzzle : MonoBehaviour {
                 obj.GetComponent<GridPuzzlePiece>().puzzle = this;
             }
         }
+
+        audioSource = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -46,6 +54,8 @@ public class GridPuzzle : MonoBehaviour {
                         // shrink back down
                         iTween.ScaleTo(piece.gameObject, iTween.Hash("time", 1, "scale", new Vector3(1,1,1), "easeType", "easeOutBack"));
                         current = null;
+                        audioSource.clip = deselect;
+                        audioSource.Play();
                     }
                     else
                     {
@@ -54,6 +64,8 @@ public class GridPuzzle : MonoBehaviour {
                             // scale up
                             iTween.ScaleTo(piece.gameObject, iTween.Hash("time", 1, "scale", new Vector3(1.4f, 1.4f, 1.4f), "easeType", "easeOutBack"));
                             current = piece;
+                            audioSource.clip = select;
+                            audioSource.Play();
                         }
                         else
                         {
@@ -61,6 +73,10 @@ public class GridPuzzle : MonoBehaviour {
                             iTween.ScaleTo(current.gameObject, iTween.Hash("time", 1, "scale", new Vector3(1, 1, 1), "easeType", "easeOutBack"));
                             iTween.MoveTo(piece.gameObject, iTween.Hash("position", current.transform.position, "time", 0.5, "easeType", "easeInOutCirc"));
                             iTween.MoveTo(current.gameObject, iTween.Hash("position", piece.transform.position, "time", 0.5, "easeType", "easeInOutCirc"));
+                            piece.Sparkle();
+                            current.Sparkle();
+                            audioSource.clip = sparkle;
+                            audioSource.Play();
                             current = null;
                         }
                     }
