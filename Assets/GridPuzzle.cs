@@ -51,32 +51,44 @@ public class GridPuzzle : MonoBehaviour {
                 {
                     if (piece == current)
                     {
-                        // shrink back down
-                        iTween.ScaleTo(piece.gameObject, iTween.Hash("time", 1, "scale", new Vector3(1,1,1), "easeType", "easeOutBack"));
                         current = null;
-                        audioSource.clip = deselect;
-                        audioSource.Play();
+
+                        // shrink back down
+                        piece.transform.localScale = new Vector3(1, 1, 1);
+
+                        //iTween.ScaleTo(piece.gameObject, iTween.Hash("time", 1, "scale", new Vector3(1,1,1), "easeType", "easeOutBack"));
+                        //audioSource.clip = deselect;
+                        //audioSource.Play();
                     }
                     else
                     {
                         if (current == null)
                         {
-                            // scale up
-                            iTween.ScaleTo(piece.gameObject, iTween.Hash("time", 1, "scale", new Vector3(1.4f, 1.4f, 1.4f), "easeType", "easeOutBack"));
                             current = piece;
-                            audioSource.clip = select;
-                            audioSource.Play();
+
+                            // scale up
+                            piece.transform.localScale = new Vector3(1.4f, 1.4f, 1.4f);
+
+                            //iTween.ScaleTo(piece.gameObject, iTween.Hash("time", 1, "scale", new Vector3(1.4f, 1.4f, 1.4f), "easeType", "easeOutBack"));
+                            //audioSource.clip = select;
+                            //audioSource.Play();
                         }
                         else
                         {
                             // swap piece and current and scale current down
-                            iTween.ScaleTo(current.gameObject, iTween.Hash("time", 1, "scale", new Vector3(1, 1, 1), "easeType", "easeOutBack"));
-                            iTween.MoveTo(piece.gameObject, iTween.Hash("position", current.transform.position, "time", 0.5, "easeType", "easeInOutCirc"));
-                            iTween.MoveTo(current.gameObject, iTween.Hash("position", piece.transform.position, "time", 0.5, "easeType", "easeInOutCirc"));
-                            piece.Sparkle();
-                            current.Sparkle();
-                            audioSource.clip = sparkle;
-                            audioSource.Play();
+                            Vector3 pos = piece.transform.position;
+                            piece.transform.position = current.transform.position;
+                            current.transform.position = pos;
+                            current.transform.localScale = new Vector3(1, 1, 1);
+
+                            //iTween.ScaleTo(current.gameObject, iTween.Hash("time", 1, "scale", new Vector3(1, 1, 1), "easeType", "easeOutBack"));
+                            //iTween.MoveTo(piece.gameObject, iTween.Hash("position", current.transform.position, "time", 0.5, "easeType", "easeInOutCirc"));
+                            //iTween.MoveTo(current.gameObject, iTween.Hash("position", piece.transform.position, "time", 0.5, "easeType", "easeInOutCirc"));
+                            //piece.Sparkle();
+                            //current.Sparkle();
+                            //audioSource.clip = sparkle;
+                            //audioSource.Play();
+
                             current = null;
                         }
                     }
