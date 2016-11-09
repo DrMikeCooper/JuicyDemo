@@ -16,13 +16,17 @@ public class JuicyButton : MonoBehaviour {
 
     public void MoveWobble()
     {
-        //iTween.ScaleTo(gameObject, iTween.Hash("time", 1, "y", 2, "easeType", "easeInOutExpo", "loopType", "none"));
-        iTween.MoveTo(gameObject, iTween.Hash("y", 1, "time", 0.5, "easeType", "easeInOutExpo", "oncomplete", "MoveWobble2", "oncompletetarget", gameObject));
+        // method 1 - chaining
+        //iTween.MoveTo(gameObject, iTween.Hash("y", 1, "time", 0.5, "easeType", "easeInOutExpo", "oncomplete", "MoveWobble2", "oncompletetarget", gameObject));
+
+        // method 2 - delay
+        iTween.MoveTo(gameObject, iTween.Hash("y", 1, "time", 0.5, "easeType", "easeInOutExpo"));
+        iTween.MoveTo(gameObject, iTween.Hash("y", 0, "time", 0.5, "easeType", "easeInOutExpo", "delay", 0.5));
+
     }
 
     public void MoveWobble2()
     {
-        //iTween.ScaleTo(gameObject, iTween.Hash("time", 1, "y", 2, "easeType", "easeInOutExpo", "loopType", "none"));
         iTween.MoveTo(gameObject, iTween.Hash("y", 0, "time", 0.5, "easeType", "easeInOutExpo"));
     }
 
